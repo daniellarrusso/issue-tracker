@@ -8,6 +8,7 @@ import axios from 'axios';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { issueSchema } from '@/app/validationSchemas';
 import { z } from 'zod';
+import ErrorMessage from '@/app/components/ErrorMessage';
 
 
 type IssueForm = z.infer<typeof issueSchema>;
@@ -37,10 +38,10 @@ const NewIssuePage = () => {
 
       })} className='space-y-3'>
         <TextField.Root {...register('title')} placeholder='Title'>
-          {errors.title && <Text as='p' color='red'>{errors.title.message}</Text>}
         </TextField.Root>
+        <ErrorMessage>{errors.title?.message}</ErrorMessage>
         <TextArea placeholder='Description' {...register('description')} />
-        {errors.description && <Text as='p' color='red'>{errors.description.message}</Text>}
+        <ErrorMessage>{errors.description?.message}</ErrorMessage>
         <Button>Submit New Issue</Button>
       </form>
     </div>
