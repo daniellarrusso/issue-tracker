@@ -1,10 +1,11 @@
 'use client';
-import React from 'react';
-import { Button, TextField } from '@radix-ui/themes';
-import SimpleMDE from "react-simplemde-editor";
+import React, { useState } from 'react';
+import { Button, Callout, TextArea, TextField } from '@radix-ui/themes';
 import "easymde/dist/easymde.min.css";
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
+
 
 interface IssueForm {
   title: string;
@@ -12,22 +13,32 @@ interface IssueForm {
 }
 
 const NewIssuePage = () => {
-  const { register, control, handleSubmit } = useForm<IssueForm>();
+  const { register, handleSubmit } = useForm<IssueForm>();
   const router = useRouter();
-
-  const submitForm = async (data: IssueForm) => {
-    await fetch('/api/issues', { body: JSON.stringify(data), method: 'post' });
-    router.push('/issues');
-  };
+  const [error, setError] = useState('');
 
   return (
-    <form onSubmit={handleSubmit(submitForm)} className='max-w-xl space-y-3'>
-      <TextField.Root {...register('title')} placeholder='Title'>
-      </TextField.Root>
-      <Controller name='description' control={control} render={({ field }) => <SimpleMDE {...field} placeholder='Description' />} />
+    <div className='max-w-xl'>
+      {error && <Callout.Root color='red' className='mb-3'>
+        <Callout.Text>{error}</Callout.Text>
+      </Callout.Root>}
+      <form onSubmit={handleSubmit(async (data) => {
+        try {
+          await axios.post('/api/issues', data);
+          router.push('/issues');
+        } catch (error) {
+          setError('An unexpected Error occurred');
+        }
 
-      <Button>Submit New Issue</Button>
-    </form>
+        // 
+
+      })} className='space-y-3'>
+        <TextField.Root {...register('title')} placeholder='Title'>
+        </TextField.Root>
+        <TextArea placeholder='Description' {...register('description')} />
+        <Button>Submit New Issue</Button>
+      </form>
+    </div>
   );
 };
 
