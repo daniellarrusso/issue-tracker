@@ -10,8 +10,9 @@ import { issueSchema } from '@/app/validationSchemas';
 import { z } from 'zod';
 import ErrorMessage from '@/app/components/ErrorMessage';
 import Spinner from '@/app/components/Spinner';
-import { SimpleMdeReact } from 'react-simplemde-editor';
+import dynamic from 'next/dynamic';
 
+const SimpleMde = dynamic(() => import('react-simplemde-editor'), { ssr: false });
 
 type IssueForm = z.infer<typeof issueSchema>;
 
@@ -43,7 +44,7 @@ const NewIssuePage = () => {
         </TextField.Root>
         <ErrorMessage>{errors.title?.message}</ErrorMessage>
         <Controller name='description' control={control} render={({ field }) =>
-          <SimpleMdeReact {...field} placeholder='Description' />
+          <SimpleMde {...field} placeholder='Description' />
         }></Controller>
 
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
