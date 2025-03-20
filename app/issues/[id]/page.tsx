@@ -6,7 +6,7 @@ import EditIssueButton from './EditIssuePage';
 import IssueDetails from './IssueDetails';
 
 interface Props {
-  params: { id: string; };
+  params: Promise<{ id: string; }>;
 }
 const IssueDetailPage = async ({ params }: Props) => {
   const { id } = await params;

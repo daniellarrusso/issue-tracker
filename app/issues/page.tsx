@@ -1,5 +1,5 @@
 import { prisma } from '@/prisma/client';
-import { Link, Table } from '@radix-ui/themes';
+import { Table } from '@radix-ui/themes';
 import React from 'react';
 import IssueStatusBadge from '../components/IssueStatusBadge';
 import delay from 'delay';
@@ -32,4 +32,5 @@ const IssuePage = async () => {
   );
 };
 
+export const dynamic = 'force-dynamic';
 export default IssuePage;
