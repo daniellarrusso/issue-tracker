@@ -6,6 +6,7 @@ import NavBar from './NavBar';
 import "@radix-ui/themes/styles.css";
 
 import { Theme } from '@radix-ui/themes';
+import AuthProvider from './auth/Provider';
 
 
 
@@ -31,13 +32,15 @@ export default function RootLayout({
       <body
         className={inter.variable}
       >
-        <Theme accentColor="sky" radius="small">
-          <NavBar />
-          <main className='p-5'>
-            {children}
-          </main>
-          {/* <ThemePanel></ThemePanel> */}
-        </Theme>
+        <AuthProvider>
+          <Theme accentColor="sky" radius="small">
+            <NavBar />
+            <main className='p-5'>
+              {children}
+            </main>
+            {/* <ThemePanel></ThemePanel> */}
+          </Theme>
+        </AuthProvider>
       </body>
     </html>
   );
