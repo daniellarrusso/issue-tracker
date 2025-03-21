@@ -34,10 +34,11 @@ const NavBar = () => {
               <>
                 <DropdownMenu.Root>
                   <DropdownMenu.Trigger>
-                    <Avatar
+                    <Avatar className='cursor-pointer'
                       src={session.user!.image!}
                       fallback='?'
                       radius='full'
+                      referrerPolicy='no-referrer'
                     />
                   </DropdownMenu.Trigger>
                   <DropdownMenu.Content>
