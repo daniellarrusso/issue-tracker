@@ -22,7 +22,6 @@ const DeleteIssueButton = ({ issueId }: { issueId: number; }) => {
             <AlertDialog.Cancel><Button variant='soft' color='gray'>Cancel</Button></AlertDialog.Cancel>
             <AlertDialog.Action><Button onClick={async () => {
               try {
-                throw new Error();
                 await axios.delete('/api/issues/' + issueId);
                 router.push('/issues');
               } catch (error) {
