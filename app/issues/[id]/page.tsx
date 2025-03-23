@@ -25,22 +25,21 @@ const IssueDetailPage = async ({ params }: Props) => {
   if (!issue) notFound();
 
   return (
-    <Grid gap={'5'} columns={{ initial: '1', md: '2' }}>
-      <Box>
+    <Grid gap={'5'} columns={{ initial: '1', sm: '5' }}>
+      <Box className='md:col-span-4'>
         <IssueDetails issue={issue} />
       </Box>
       {session &&
         <Box>
           <Flex direction={'column'} gap={'4'}>
-            <Box>
-              <AssigneeSelect />
-            </Box>
-            <div>
-              <EditIssueButton issueId={issue.id} />
-            </div>
-            <div>
-              <DeleteIssueButton issueId={issue.id} />
-            </div>
+
+            <AssigneeSelect />
+
+
+            <EditIssueButton issueId={issue.id} />
+
+            <DeleteIssueButton issueId={issue.id} />
+
           </Flex>
         </Box>
       }
