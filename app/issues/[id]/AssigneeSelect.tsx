@@ -1,21 +1,24 @@
 'use client';
 // import { prisma } from '@/prisma/client';
+import { Skeleton } from '@/app/components';
+import { Issue, User } from '@prisma/client';
 import { Select } from '@radix-ui/themes';
-import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { Issue, User } from '@prisma/client';
-import { Skeleton } from '@/app/components';
 import toast, { Toaster } from 'react-hot-toast';
 
 const AssigneeSelect = ({ issue }: { issue: Issue; }) => {
 
-  const { data: users, isLoading, error } = useQuery<User[]>({
-    queryKey: ['users'],
-    queryFn: () => axios.get('/api/users').then(res => res.data),
-    staleTime: 60 * 1000,
-    retry: 3
-  });
+  const { data: users, isLoading, error } = useUsers();
+
+  const assignIssue = async (userId: string) => {
+    try {
+      await axios.patch('/api/issues/' + issue.id, { assignedToUserId: userId !== 'unassigned' ? userId : null });
+    } catch (error) {
+      console.log(error);
+      toast.error('Changes could not be saved');
+    }
+  };
 
   if (isLoading) return <Skeleton />;
 
@@ -23,14 +26,7 @@ const AssigneeSelect = ({ issue }: { issue: Issue; }) => {
 
   return (
     <div>
-      <Select.Root defaultValue={issue.assignedToUserId || 'unassigned'} onValueChange={async (userId) => {
-        try {
-          await axios.patch('/api/issues/' + issue.id, { assignedToUserId: userId !== 'unassigned' ? userId : null });
-        } catch (error) {
-          console.log(error);
-          toast.error('Changes could not be saved');
-        }
-      }}>
+      <Select.Root defaultValue={issue.assignedToUserId || 'unassigned'} onValueChange={assignIssue}>
         <Select.Trigger placeholder='Assign'></Select.Trigger>
         <Select.Content>
           <Select.Group>
@@ -44,5 +40,13 @@ const AssigneeSelect = ({ issue }: { issue: Issue; }) => {
     </div>
   );
 };
+
+export const useUsers = () => useQuery<User[]>({
+  queryKey: ['users'],
+  queryFn: () => axios.get('/api/users').then(res => res.data),
+  staleTime: 60 * 1000,
+  retry: 3
+});
+
 
 export default AssigneeSelect;
