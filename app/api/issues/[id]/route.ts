@@ -1,5 +1,5 @@
 import authOptions from '@/app/auth/authOptions';
-import { issueSchema, pathIssueSchema } from '@/app/validationSchemas';
+import { pathIssueSchema } from '@/app/validationSchemas';
 import { prisma } from '@/prisma/client';
 import { Issue } from '@prisma/client';
 import { getServerSession } from 'next-auth';
@@ -26,6 +26,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
 
   const { assignedToUserId, description, title } = body;
   if (assignedToUserId) {
+    console.log(assignedToUserId);
     const user = await prisma.user.findUnique({
       where: {
         id: assignedToUserId
