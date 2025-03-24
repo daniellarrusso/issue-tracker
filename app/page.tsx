@@ -1,9 +1,10 @@
+import StyledLink from './components/StyledLink';
 
 
 export default function Home() {
   return (
     <div>
-      Hello World
+      Welcome. <StyledLink href={'/issues/list'}>Issues</StyledLink>
     </div>
   );
 }

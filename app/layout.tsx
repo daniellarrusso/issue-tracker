@@ -7,6 +7,7 @@ import "@radix-ui/themes/styles.css";
 
 import { Container, Theme } from '@radix-ui/themes';
 import AuthProvider from './auth/Provider';
+import QueryClientProvider from './QueryClientProvider';
 
 
 
@@ -32,18 +33,20 @@ export default function RootLayout({
       <body
         className={inter.variable}
       >
-        <AuthProvider>
-          <Theme accentColor="sky" radius="small">
-            <NavBar />
-            <Container>
-              <main className='p-5'>
-                {children}
-              </main>
-            </Container>
+        <QueryClientProvider>
+          <AuthProvider>
+            <Theme accentColor="sky" radius="small">
+              <NavBar />
+              <Container>
+                <main className='p-5'>
+                  {children}
+                </main>
+              </Container>
 
-            {/* <ThemePanel></ThemePanel> */}
-          </Theme>
-        </AuthProvider>
+              {/* <ThemePanel></ThemePanel> */}
+            </Theme>
+          </AuthProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );
