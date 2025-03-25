@@ -5,9 +5,19 @@ import IssueStatusBadge from '@/app/components/IssueStatusBadge';
 import delay from 'delay';
 import IssueActions from './IssueActions';
 import StyledLink from '@/app/components/StyledLink';
+import { Status } from '@prisma/client';
 
-const IssuePage = async () => {
-  const issues = await prisma.issue.findMany();
+const IssuePage = async ({ searchParams }: { searchParams: Promise<{ status: Status; }>; }) => {
+  const { status } = await searchParams;
+  const statuses = Object.values(Status);
+  const validStatus = statuses.includes(status) ? status : undefined;
+  const issues = await prisma.issue.findMany({
+    where: {
+      status: validStatus
+    }
+  });
+
+
   await delay(2000);
   return (
     <div>
