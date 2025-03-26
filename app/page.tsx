@@ -17,12 +17,6 @@ export default async function Home() {
         <IssueChart open={openIssues} inProgress={InProgressIssues} closed={closedIssues} />
       </Flex>
       <LatestIssues />
-      {/* <Flex direction={'column'} gap={'4'}>
-        
-        
-        
-
-      </Flex> */}
     </Grid>
   );
 }
