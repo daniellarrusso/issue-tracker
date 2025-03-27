@@ -7,10 +7,11 @@ import Link from 'next/link';
 const LatestIssues = async () => {
 
   const issues = await prisma.issue.findMany({
-    orderBy: { ['createdAt']: 'asc' },
+    orderBy: { ['createdAt']: 'desc' },
+    where: { status: { in: ['IN_PROGRESS', 'OPEN'] } },
     take: 5,
     include: {
-      assignedUser: true
+      assignedUser: true,
     }
   });
 
