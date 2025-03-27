@@ -7,7 +7,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
-const DeleteIssueButton = ({ issueId }: { issueId: number; }) => {
+const DeleteIssueButton = ({ issueId }: { issueId: string; }) => {
   const [error, setError] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const router = useRouter();
